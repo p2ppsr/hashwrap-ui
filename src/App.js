@@ -74,9 +74,10 @@ const App = () => {
           Enter a TXID, get an SPV Envelope.
         </Typography>
         <Tabs value={value} onChange={handleNetworkChange} aria-label="select mainnet or testnet">
-        <Tab label="mainnet" />
+        <Tab label="mainnet"/>
         <Tab label="testnet"/>
-        </Tabs>        
+        </Tabs>
+        <br/>        
         <TextField
           onChange={handleChange}
           label='Bitcoin SV TXID'
