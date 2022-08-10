@@ -38,7 +38,7 @@ const App = () => {
   const handleNetworkChange = (e: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
     options.network = newValue === 0 ? 'mainnet' : 'testnet'
-    console.log('options.network:', options.network)
+    console.log('Tab changed - options.network:', options.network)
   };
   const handleChange = async e => {
     if (e.target.value.length !== 64) {
