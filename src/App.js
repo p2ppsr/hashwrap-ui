@@ -13,33 +13,18 @@ import { makeStyles } from '@material-ui/core/styles'
 const useStyles = makeStyles(style, {
   name: 'Hashwrap'
 })
-/*
-const makeStyles = styled((props: StyledTabProps) => (
-  <Tab disableRipple {...props} />
-))(({ theme }) => ({
-  textTransform: 'none',
-}))
-*/
-let options = { network: 'mainnet', taalApiKey: 'TY_HARDCODE_IN_REVIEW' } 
 
 const App = () => {
-  const [value, setValue] = useState(0)
+  const [tabValue, setTabValue] = useState(0)
   const [envelope, setEnvelope] = useState(null)
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
   const classes = useStyles()
-  /*** Need custom tab if lowercase tab labels are required *** /
-  const CustomTab = makeStyles((props: StyledTabProps) => <Tab disableRipple {...props} />)(
-    ({ theme }) => ({
-      textTransform: 'none'
-    }),
-  )
-  ***/
-  const handleNetworkChange = (e: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
-    options.network = newValue === 0 ? 'mainnet' : 'testnet'
-    console.log('Tab changed - options.network:', options.network)
-  };
+
+  const handleNetworkChange = (e, newValue) => {
+    setTabValue(newValue)
+  }
+
   const handleChange = async e => {
     if (e.target.value.length !== 64) {
       if (e.target.value === '') {
@@ -51,7 +36,13 @@ const App = () => {
     try {
       setLoading(true)
       setEnvelope(null)
-      console.log('options:', options)
+      let options
+      if (tabValue === 1) {
+        options = {
+          network: 'testnet',
+          taalApiKey: process.env.REACT_APP_TAAL_TESTNET_API_KEY
+        }
+      }
       setEnvelope(await hashwrap(e.target.value, options))
       setError(null)
     } catch (e) {
@@ -60,6 +51,7 @@ const App = () => {
       setLoading(false)
     }
   }
+
   return (
     <div className={classes.content_wrap}>
       <center>
@@ -72,9 +64,9 @@ const App = () => {
         <Typography className={classes.subtitle} paragraph>
           Enter a TXID, get an SPV Envelope.
         </Typography>
-        <Tabs value={value} onChange={handleNetworkChange} aria-label="select mainnet or testnet">
-        <Tab label="mainnet"/>
-        <Tab label="testnet"/>
+        <Tabs value={tabValue} onChange={handleNetworkChange} aria-label="select mainnet or testnet">
+          <Tab label="mainnet"/>
+          <Tab label="testnet"/>
         </Tabs>
         <br/>        
         <TextField
