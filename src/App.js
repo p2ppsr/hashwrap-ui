@@ -20,9 +20,9 @@ const makeStyles = styled((props: StyledTabProps) => (
   textTransform: 'none',
 }))
 */
+let options = { network: 'mainnet', taalApiKey: 'TY_HARDCODE_IN_REVIEW' } 
 
 const App = () => {
-  let options = { network: 'mainnet', taalApiKey: 'TY_HARDCODE_IN_REVIEW' } 
   const [value, setValue] = useState(0)
   const [envelope, setEnvelope] = useState(null)
   const [error, setError] = useState(null)
@@ -51,6 +51,7 @@ const App = () => {
     try {
       setLoading(true)
       setEnvelope(null)
+      console.log('options:', options)
       setEnvelope(await hashwrap(e.target.value, options))
       setError(null)
     } catch (e) {
