@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import hashwrap from 'hash-wrap'
 import {
+  Tabs,
+  Tab,
   Typography,
   TextField,
   LinearProgress
@@ -11,13 +13,35 @@ import { makeStyles } from '@material-ui/core/styles'
 const useStyles = makeStyles(style, {
   name: 'Hashwrap'
 })
+/*
+const makeStyles = styled((props: StyledTabProps) => (
+  <Tab disableRipple {...props} />
+))(({ theme }) => ({
+  textTransform: 'none',
+}))
+*/
 
 const App = () => {
+  // A value of 'testnet' indicates the testnet network is to be used, while 
+  // any other value,including a blank value, indicates mainnet to be used
+  let options = { network: ''} 
+  const [value, setValue] = useState(0)
   const [envelope, setEnvelope] = useState(null)
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
   const classes = useStyles()
-
+  /*** Need custom tab if lowercase tab labels are required *** /
+  const CustomTab = makeStyles((props: StyledTabProps) => <Tab disableRipple {...props} />)(
+    ({ theme }) => ({
+      textTransform: 'none'
+    }),
+  )
+  ***/
+  const handleNetworkChange = (e: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
+    options.network = newValue === 0 ? '' : 'testnet'
+    console.log('options.network:', options.network)
+  };
   const handleChange = async e => {
     if (e.target.value.length !== 64) {
       if (e.target.value === '') {
@@ -29,7 +53,7 @@ const App = () => {
     try {
       setLoading(true)
       setEnvelope(null)
-      setEnvelope(await hashwrap(e.target.value))
+      setEnvelope(await hashwrap(e.target.value, options))
       setError(null)
     } catch (e) {
       setError(e.message)
@@ -37,7 +61,6 @@ const App = () => {
       setLoading(false)
     }
   }
-
   return (
     <div className={classes.content_wrap}>
       <center>
@@ -50,6 +73,10 @@ const App = () => {
         <Typography className={classes.subtitle} paragraph>
           Enter a TXID, get an SPV Envelope.
         </Typography>
+        <Tabs value={value} onChange={handleNetworkChange} aria-label="select mainnet or testnet">
+        <Tab label="mainnet" />
+        <Tab label="testnet"/>
+        </Tabs>        
         <TextField
           onChange={handleChange}
           label='Bitcoin SV TXID'
