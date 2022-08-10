@@ -22,9 +22,7 @@ const makeStyles = styled((props: StyledTabProps) => (
 */
 
 const App = () => {
-  // A value of 'testnet' indicates the testnet network is to be used, while 
-  // any other value,including a blank value, indicates mainnet to be used
-  let options = { network: ''} 
+  let options = { network: 'mainnet', taalApiKey: 'TY_HARDCODE_IN_REVIEW' } 
   const [value, setValue] = useState(0)
   const [envelope, setEnvelope] = useState(null)
   const [error, setError] = useState(null)
@@ -39,7 +37,7 @@ const App = () => {
   ***/
   const handleNetworkChange = (e: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
-    options.network = newValue === 0 ? '' : 'testnet'
+    options.network = newValue === 0 ? 'mainnet' : 'testnet'
     console.log('options.network:', options.network)
   };
   const handleChange = async e => {
