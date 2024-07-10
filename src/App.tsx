@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import {
   Container,
   Typography,
@@ -9,60 +9,60 @@ import {
   Grid,
   useTheme,
   styled,
-} from '@mui/material';
-import hashwrap from 'hash-wrap';
-import './App.scss';
+} from '@mui/material'
+import hashwrap from 'hash-wrap'
+import './App.scss'
 
 const StyledContainer = styled(Container)(({ theme }) => ({
   maxWidth: '1440px',
   margin: `${theme.spacing(3)}px auto`,
-}));
+}))
 
 interface HashwrapOptions {
-  network: string;
-  taalApiKey?: string;
+  network: string
+  taalApiKey?: string
 }
 
 const App: React.FC = () => {
-  const [tabValue, setTabValue] = useState(0);
-  const [envelope, setEnvelope] = useState<any>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
-  const theme = useTheme();
+  const [tabValue, setTabValue] = useState(0)
+  const [envelope, setEnvelope] = useState<any>(null)
+  const [error, setError] = useState<string | null>(null)
+  const [loading, setLoading] = useState(false)
+  const theme = useTheme()
 
   const handleNetworkChange = (event: React.SyntheticEvent, newValue: number) => {
-    setTabValue(newValue);
-  };
+    setTabValue(newValue)
+  }
 
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
+    const value = e.target.value
     if (value.length !== 64) {
       if (value === '') {
-        setEnvelope(null);
+        setEnvelope(null)
       }
-      setError(null);
-      return;
+      setError(null)
+      return
     }
 
     try {
-      setLoading(true);
-      setEnvelope(null);
-      let options: HashwrapOptions = { network: 'mainnet' };
+      setLoading(true)
+      setEnvelope(null)
+      let options: HashwrapOptions = { network: 'mainnet' }
       if (tabValue === 1) {
         options = {
           network: 'testnet',
           taalApiKey: process.env.REACT_APP_TAAL_TESTNET_API_KEY || '',
-        };
+        }
       }
-      const result = await hashwrap(value, options);
-      setEnvelope(result);
-      setError(null);
+      const result = await hashwrap(value, options)
+      setEnvelope(result)
+      setError(null)
     } catch (e: any) {
-      setError(e.message || String(e));
+      setError(e.message || String(e))
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   return (
     <StyledContainer maxWidth={false}>
@@ -156,7 +156,7 @@ const App: React.FC = () => {
         </Grid>
       </Grid>
     </StyledContainer>
-  );
-};
+  )
+}
 
-export default App;
+export default App
