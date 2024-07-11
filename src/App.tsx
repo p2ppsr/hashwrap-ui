@@ -75,14 +75,14 @@ const App: React.FC = () => {
               [theme.breakpoints.down('sm')]: {
                 fontSize: '2em',
               },
-              paddingTop: '0.5em'
+              paddingTop: '1em'
             }}
           >
             <b>HASHWRAP</b>
           </Typography>
         </Grid>
         <Grid item xs={12}>
-          <Typography align="center" sx={{ marginBottom: theme.spacing(10) }} paragraph>
+          <Typography align="center" sx={{ marginBottom: theme.spacing(5) }} paragraph>
             Enter a TXID, get an SPV Envelope.
           </Typography>
         </Grid>
