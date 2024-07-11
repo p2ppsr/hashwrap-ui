@@ -94,6 +94,13 @@ const App: React.FC = () => {
         <Grid item xs={12}>
           <TextField
             onChange={handleChange}
+            onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
+              if (e.key === 'Enter') {
+                handleChange({
+                  target: { value: (e.target as HTMLInputElement).value } as any
+                } as React.ChangeEvent<HTMLInputElement>)
+              }
+            }}
             label="Bitcoin SV TXID"
             fullWidth
             disabled={loading}
