@@ -75,6 +75,7 @@ const App: React.FC = () => {
               [theme.breakpoints.down('sm')]: {
                 fontSize: '2em',
               },
+              paddingTop: '0.5em'
             }}
           >
             <b>HASHWRAP</b>
