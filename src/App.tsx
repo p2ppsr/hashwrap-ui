@@ -21,6 +21,7 @@ const StyledContainer = styled(Container)(({ theme }) => ({
 interface HashwrapOptions {
   network: string
   taalApiKey?: string
+  format?: 'beefHex'
 }
 
 const App: React.FC = () => {
@@ -52,6 +53,7 @@ const App: React.FC = () => {
         options = {
           network: 'testnet',
           taalApiKey: process.env.REACT_APP_TAAL_TESTNET_API_KEY || '',
+          format: 'beefHex'
         }
       }
       const result = await hashwrap(value, options)
