@@ -10,7 +10,7 @@ import {
   useTheme,
   styled,
 } from '@mui/material'
-import hashwrap from 'hash-wrap'
+import hashwrap from '../../hashwrap'
 import './App.scss'
 
 const StyledContainer = styled(Container)(({ theme }) => ({
