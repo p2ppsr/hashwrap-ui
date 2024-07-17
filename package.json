@@ -11,7 +11,7 @@
     "@types/jest": "^29.5.11",
     "@types/node": "^20.11.0",
     "@types/react": "^17.0.0",
-    "hash-wrap": "^1.1.41",
+    "hash-wrap": "^1.1.42",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^9.1.0",
