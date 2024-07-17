@@ -17,5 +17,5 @@
     "jsx": "react",
     "sourceMap": true // Optional, but recommended for development
   },
-  "include": ["src", "src/components", "src/utils", "src/types"]
+  "include": ["src", "src/types"]
 }
