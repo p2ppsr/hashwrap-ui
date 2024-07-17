@@ -29,6 +29,7 @@ const App: React.FC = () => {
   const [envelope, setEnvelope] = useState<any>(null)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
+  const [useBeef, setUseBeef] = useState(true)
   const theme = useTheme()
 
   const handleNetworkChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -56,7 +57,9 @@ const App: React.FC = () => {
           format: 'beefHex'
         }
       }
-      const result = await hashwrap(value, options)
+      if (useBeef) options.format = 'beefHex'
+      const resultPromise = hashwrap(value, options)
+      const result = await resultPromise
       setEnvelope(result)
       setError(null)
     } catch (e: any) {
