@@ -63,6 +63,16 @@ const App: React.FC = () => {
     setEnvelopeLength(null)
   }
 
+  const formatBeefResponse = (beef: string, lineLength: number = 80): string => {
+    // Remove double quotes from the ends
+    const strippedBeef = beef.replace(/^"|"$/g, '')
+    
+    // Wrap the text to the specified line length
+    const wrappedBeef = strippedBeef.replace(new RegExp(`(.{1,${lineLength}})`, 'g'), '$1\n')
+    
+    return wrappedBeef
+  }
+
   const updateEnvelopeField = async (txid: string, getEnvelope?: boolean) => {
     if (txid.length !== 64) {
       if (txid === '') {
@@ -207,13 +217,16 @@ const App: React.FC = () => {
                 style={{
                   borderRadius: theme.spacing(0.5),
                   boxShadow: theme.shadows[5],
-                  overflowX: 'scroll',
+                  overflowX: tabValue === 0 || getEnvelope ? 'auto' : 'hidden',
+                  whiteSpace: 'pre-wrap',
                   boxSizing: 'border-box',
                   padding: theme.spacing(2),
                   userSelect: 'all',
                 }}
               >
-                {JSON.stringify(envelope, null, 2)}
+                {tabValue === 0 || getEnvelope
+                  ? JSON.stringify(envelope, null, 2)
+                  : formatBeefResponse(JSON.stringify(envelope))}
               </pre>
             </Grid>
             <Grid item xs={12} sx={{ marginTop: theme.spacing(5) }}>
