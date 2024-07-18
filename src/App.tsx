@@ -103,8 +103,8 @@ const App: React.FC = () => {
       let options: HashwrapOptions = { network }
       if (network === 'testnet') {
         options.taalApiKey = process.env.REACT_APP_TAAL_TESTNET_API_KEY || ''
-        options.format = getEnvelope ? undefined : 'beefHex'
       }
+      options.format = getEnvelope ? undefined : 'beefHex'
       const result = await hashwrap(txid, options)
       setEnvelope(result)
       setCache(prevCache => ({ ...prevCache, [cacheKey]: result })) // Cache the result
@@ -145,7 +145,7 @@ const App: React.FC = () => {
             (Background Evaluation Extended Format)
           </Typography>
           <Typography variant='h6' align='center' sx={{ marginBottom: theme.spacing(5) }} paragraph>
-            (currently testnet only and you can retrieve your Envelope[deprecated] using checkbox selection)
+            (you can retrieve your Envelope format using checkbox selection)
           </Typography>
         </Grid>
         <Grid item xs={12}>
@@ -175,26 +175,24 @@ const App: React.FC = () => {
             autoFocus
           />
         </Grid>
-        {tabValue === 1 && (
-          <Grid item xs={1}>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={getEnvelope}
-                  onChange={handleGetEnvelopeChange}
-                  color='primary'
-                />
-              }
-              label='your envelope(deprecated)'
-            />
-          </Grid>
-        )}
+        <Grid item xs={1}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={getEnvelope}
+                onChange={handleGetEnvelopeChange}
+                color='primary'
+              />
+            }
+            label='Envelope format'
+          />
+        </Grid>
         {loading && (
           <>
             <Grid item xs={12}>
               <Typography sx={{ marginTop: theme.spacing(5) }} align='center' color='textSecondary' paragraph>
-                {tabValue === 0 || getEnvelope
-                  ? <i>Preparing your Envelope(deprecated)...</i>
+                {getEnvelope
+                  ? <i>Preparing your Envelope...</i>
                   : <i>Preparing your BEEF...</i>}
               </Typography>
             </Grid>
@@ -208,7 +206,7 @@ const App: React.FC = () => {
             <Grid item xs={12} sx={{ marginTop: theme.spacing(5) }}>
               <Typography variant='h4' align='center'>
                 Your 
-                {tabValue === 0 || getEnvelope
+                {getEnvelope
                   ? <b> Envelope </b>
                   : <b> BEEF </b>} 
                 is ready, good sir!
@@ -217,21 +215,21 @@ const App: React.FC = () => {
                 style={{
                   borderRadius: theme.spacing(0.5),
                   boxShadow: theme.shadows[5],
-                  overflowX: tabValue === 0 || getEnvelope ? 'auto' : 'hidden',
+                  overflowX: getEnvelope ? 'auto' : 'hidden',
                   whiteSpace: 'pre-wrap',
                   boxSizing: 'border-box',
                   padding: theme.spacing(2),
                   userSelect: 'all',
                 }}
               >
-                {tabValue === 0 || getEnvelope
+                {getEnvelope
                   ? JSON.stringify(envelope, null, 2)
                   : formatBeefResponse(JSON.stringify(envelope))}
               </pre>
             </Grid>
             <Grid item xs={12} sx={{ marginTop: theme.spacing(5) }}>
               <Typography variant='h6' align='center'>
-                {tabValue === 1 && envelopeLength && beefLength && (
+                {envelopeLength && beefLength && (
                   <>
                     <p>Envelope length: {envelopeLength} characters</p>
                     <p>BEEF length: {beefLength} characters</p>
@@ -246,23 +244,28 @@ const App: React.FC = () => {
           <Typography variant='h4'>
             <b>What is this?</b>
           </Typography>
-          <Typography paragraph>
+          <Typography variant='h5' paragraph>
             This is a website where you can generate SPV
             &nbsp;<a href='https://github.com/bitcoin-sv/BRCs/blob/0eae30a933896be7a39f5c80c43b4475332ffed5/transactions/0062.md'>BEEF</a>&nbsp;
-            for a transaction, given its TXID. An SPV BEEF is a way to
-            represent a Bitcoin transaction that allows it to be handed to its
-            recipients and verified by an SPV client without the
-            need for any other information. Currently, mainnet returns an SPV envelope and testnet by default returns a BEEF.
-            You can request the equivalent testnet Envelope(deprecated) but this is far less efficient and discouraged.
+            for a transaction, given its TXID. An SPV BEEF is a way to represent a Bitcoin 
+            transaction that allows it to be handed to its recipients and verified by an SPV 
+            client without the need for any other information.
+          </Typography>
+          <Typography variant='h6' paragraph>
+            <i>You can request the equivalent Envelope(deprecated) format using the checkbox, 
+            but this is far less efficient and generally discouraged.</i>
           </Typography>
           <Typography variant='h4'>
             <b>Where's the code?</b>
           </Typography>
           <Typography paragraph>
-            If you have any questions, please reach out to the Babbage Team.
+            The code is on <a href='https://github.com/p2ppsr/hashwrap'>GitHub</a>.
+          </Typography>
+          <Typography variant='h4'>
+            <b>Questions?</b>
           </Typography>
           <Typography paragraph>
-            The code is on <a href='https://github.com/p2ppsr/hashwrap'>GitHub</a>.
+            If you have any questions, please reach out to the Babbage Team.
           </Typography>
         </Grid>
       </Grid>
