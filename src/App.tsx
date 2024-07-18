@@ -34,6 +34,8 @@ const App: React.FC = () => {
   const [getEnvelope, setGetEnvelope] = useState(false)
   const [txid, setTxid] = useState<string>('')
   const [cache, setCache] = useState<{ [key: string]: any }>({})
+  const [beefLength, setBeefLength] = useState<number | null>(null)
+  const [envelopeLength, setEnvelopeLength] = useState<number | null>(null)
   const theme = useTheme()
 
   const handleGetEnvelopeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,6 +59,8 @@ const App: React.FC = () => {
     setTxid('')
     setEnvelope(null)
     setError(null)
+    setBeefLength(null)
+    setEnvelopeLength(null)
   }
 
   const updateEnvelopeField = async (txid: string, getEnvelope?: boolean) => {
@@ -73,7 +77,13 @@ const App: React.FC = () => {
 
     // Check if the result is in the cache
     if (cache[cacheKey]) {
-      setEnvelope(cache[cacheKey])
+      const cachedResult = cache[cacheKey]
+      setEnvelope(cachedResult)
+      if (getEnvelope) {
+        setEnvelopeLength(JSON.stringify(cachedResult).length)
+      } else {
+        setBeefLength(JSON.stringify(cachedResult).length)
+      }
       return
     }
 
@@ -89,6 +99,11 @@ const App: React.FC = () => {
       setEnvelope(result)
       setCache(prevCache => ({ ...prevCache, [cacheKey]: result })) // Cache the result
       setError(null)
+      if (getEnvelope) {
+        setEnvelopeLength(JSON.stringify(result).length)
+      } else {
+        setBeefLength(JSON.stringify(result).length)
+      }
     } catch (e: any) {
       setError(e.message || String(e))
     } finally {
@@ -160,7 +175,7 @@ const App: React.FC = () => {
                   color='primary'
                 />
               }
-              label='your Envelope(deprecated)'
+              label='your envelope(deprecated)'
             />
           </Grid>
         )}
@@ -179,27 +194,40 @@ const App: React.FC = () => {
           </>
         )}
         {envelope && (
-          <Grid item xs={12} sx={{ marginTop: theme.spacing(5) }}>
-            <Typography variant='h4' align='center'>
-              Your 
-              {tabValue === 0 || getEnvelope
-                ? <b> Envelope </b>
-                : <b> BEEF </b>} 
-              is ready, good sir!
-            </Typography>
-            <pre
-              style={{
-                borderRadius: theme.spacing(0.5),
-                boxShadow: theme.shadows[5],
-                overflowX: 'scroll',
-                boxSizing: 'border-box',
-                padding: theme.spacing(2),
-                userSelect: 'all',
-              }}
-            >
-              {JSON.stringify(envelope, null, 2)}
-            </pre>
-          </Grid>
+          <>
+            <Grid item xs={12} sx={{ marginTop: theme.spacing(5) }}>
+              <Typography variant='h4' align='center'>
+                Your 
+                {tabValue === 0 || getEnvelope
+                  ? <b> Envelope </b>
+                  : <b> BEEF </b>} 
+                is ready, good sir!
+              </Typography>
+              <pre
+                style={{
+                  borderRadius: theme.spacing(0.5),
+                  boxShadow: theme.shadows[5],
+                  overflowX: 'scroll',
+                  boxSizing: 'border-box',
+                  padding: theme.spacing(2),
+                  userSelect: 'all',
+                }}
+              >
+                {JSON.stringify(envelope, null, 2)}
+              </pre>
+            </Grid>
+            <Grid item xs={12} sx={{ marginTop: theme.spacing(5) }}>
+              <Typography variant='h6' align='center'>
+                {tabValue === 1 && envelopeLength && beefLength && (
+                  <>
+                    <p>Envelope length: {envelopeLength} characters</p>
+                    <p>BEEF length: {beefLength} characters</p>
+                    <p>BEEF is {(envelopeLength - beefLength)} characters shorter, {(100 * (envelopeLength - beefLength) / envelopeLength).toFixed(2)}% more efficient</p>
+                  </>
+                )}
+              </Typography>
+            </Grid>
+          </>
         )}
         <Grid item xs={12} sx={{ marginTop: theme.spacing(10) }}>
           <Typography variant='h4'>
@@ -211,8 +239,8 @@ const App: React.FC = () => {
             for a transaction, given its TXID. An SPV BEEF is a way to
             represent a Bitcoin transaction that allows it to be handed to its
             recipients and verified by an SPV client without the
-            need for any other information. Currently, mainnet returns an SPV Envelope and testnet by default returns a BEEF.
-            You can request the equivalent testnet Envelope(deprecated) but this is far less efficient and generally discouraged.
+            need for any other information. Currently, mainnet returns an SPV envelope and testnet by default returns a BEEF.
+            You can request the equivalent testnet Envelope(deprecated) but this is far less efficient and discouraged.
           </Typography>
           <Typography variant='h4'>
             <b>Where's the code?</b>
