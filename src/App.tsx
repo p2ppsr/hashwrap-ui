@@ -66,10 +66,10 @@ const App: React.FC = () => {
   const formatBeefResponse = (beef: string, lineLength: number = 80): string => {
     // Remove double quotes from the ends
     const strippedBeef = beef.replace(/^"|"$/g, '')
-    
+
     // Wrap the text to the specified line length
     const wrappedBeef = strippedBeef.replace(new RegExp(`(.{1,${lineLength}})`, 'g'), '$1\n')
-    
+
     return wrappedBeef
   }
 
@@ -205,10 +205,10 @@ const App: React.FC = () => {
           <>
             <Grid item xs={12} sx={{ marginTop: theme.spacing(5) }}>
               <Typography variant='h4' align='center'>
-                Your 
+                Your
                 {getEnvelope
                   ? <b> Envelope </b>
-                  : <b> BEEF </b>} 
+                  : <b> BEEF </b>}
                 is ready, good sir!
               </Typography>
               <pre
@@ -217,9 +217,12 @@ const App: React.FC = () => {
                   boxShadow: theme.shadows[5],
                   overflowX: getEnvelope ? 'auto' : 'hidden',
                   whiteSpace: 'pre-wrap',
+                  wordBreak: 'break-word',
                   boxSizing: 'border-box',
                   padding: theme.spacing(2),
                   userSelect: 'all',
+                  width: '100%',
+                  textAlign: getEnvelope ? 'left' : 'center',
                 }}
               >
                 {getEnvelope
@@ -247,13 +250,13 @@ const App: React.FC = () => {
           <Typography variant='h6' paragraph>
             This is a website where you can generate SPV
             &nbsp;<a href='https://github.com/bitcoin-sv/BRCs/blob/0eae30a933896be7a39f5c80c43b4475332ffed5/transactions/0062.md'>BEEF</a>&nbsp;
-            for a transaction, given its TXID. An SPV BEEF is a way to represent a Bitcoin 
-            transaction that allows it to be handed to its recipients and verified by an SPV 
+            for a transaction, given its TXID. An SPV BEEF is a way to represent a Bitcoin
+            transaction that allows it to be handed to its recipients and verified by an SPV
             client without the need for any other information.
           </Typography>
           <Typography paragraph>
-            <i>You can request the equivalent Envelope(deprecated) format using the checkbox, 
-            but this is far less efficient and generally discouraged.</i>
+            <i>You can request the equivalent Envelope(deprecated) format using the checkbox,
+              but this is far less efficient and generally discouraged.</i>
           </Typography>
           <Typography variant='h4'>
             <b>Where's the code?</b>
