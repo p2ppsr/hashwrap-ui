@@ -2,3 +2,4 @@ This UI is for a user to retrieve SPV BEEF and Envelope(deprecated) formats when
 
 To reduce the calls to `hashwrap` the results are cached for the page.
 
+![Screenshot from 2024-07-18 13-42-33](https://github.com/user-attachments/assets/1d67c731-ce1c-4149-a412-d56475c8737a)
