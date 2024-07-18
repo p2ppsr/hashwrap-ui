@@ -244,27 +244,27 @@ const App: React.FC = () => {
           <Typography variant='h4'>
             <b>What is this?</b>
           </Typography>
-          <Typography variant='h5' paragraph>
+          <Typography variant='h6' paragraph>
             This is a website where you can generate SPV
             &nbsp;<a href='https://github.com/bitcoin-sv/BRCs/blob/0eae30a933896be7a39f5c80c43b4475332ffed5/transactions/0062.md'>BEEF</a>&nbsp;
             for a transaction, given its TXID. An SPV BEEF is a way to represent a Bitcoin 
             transaction that allows it to be handed to its recipients and verified by an SPV 
             client without the need for any other information.
           </Typography>
-          <Typography variant='h6' paragraph>
+          <Typography paragraph>
             <i>You can request the equivalent Envelope(deprecated) format using the checkbox, 
             but this is far less efficient and generally discouraged.</i>
           </Typography>
           <Typography variant='h4'>
             <b>Where's the code?</b>
           </Typography>
-          <Typography paragraph>
+          <Typography variant='h6' paragraph>
             The code is on <a href='https://github.com/p2ppsr/hashwrap'>GitHub</a>.
           </Typography>
           <Typography variant='h4'>
             <b>Questions?</b>
           </Typography>
-          <Typography paragraph>
+          <Typography variant='h6' paragraph>
             If you have any questions, please reach out to the Babbage Team.
           </Typography>
         </Grid>
